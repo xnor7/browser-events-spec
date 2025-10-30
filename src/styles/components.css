@@ -1,6 +1,6 @@
 #app-wrapper {
     display: flex;
-    overflow: scroll;
+    overflow-y: scroll;
 }
 
 #header {
@@ -99,13 +99,14 @@
 }
 
 #main {
-    padding: 1rem 1rem 1rem 1rem;
-    width: 100%;
+    padding: 0;
+    width: calc(100%);
     margin-left: calc(var(--sidebar-width) + 2rem);
     margin-top: calc(var(--header-height));
     position: relative;
     background: var(--bg-primary);
     min-height: 200dvh !important;
+    /* overflow-x: hidden; */
 }
 
 @media (max-width:40em) {
@@ -131,6 +132,15 @@
     flex-direction: column;
     gap: 1rem;
     max-width: calc(100%);
+    padding: 0rem 1rem;
+
+    &:first-child {
+        padding-top: 0rem !important;
+    }
+
+    &:last-child {
+        padding-bottom: 0rem;
+    }
 }
 
 .event-wrapper {
@@ -217,4 +227,8 @@
 
 :root {
     color-scheme: light dark;
+}
+
+#touchcancel-demo {
+    touch-action: none;
 }

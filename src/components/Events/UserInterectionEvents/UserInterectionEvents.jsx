@@ -114,13 +114,58 @@ const code = {
     ],
     touchstart: [
         { line: `const bgDiv = document.getElementById('touchstart-demo');`, indent: '0' },
-        { line: `const kdInput = document.getElementById('touchstart-input');`, indent: '0' },
+        { line: `const countSpan = document.getElementById('touchstart-count');`, indent: '0' },
+        { line: `let count = 0;`, indent: '0' },
         { line: `const handleTouchStart = (e) => {`, indent: '0' },
-        { line: 'kdCount.textContent = `Input: "${e.key}"`', indent: '1' },
+        { line: `count += e.touches.length;`, indent: '1' },
+        { line: `if (countSpan) {`, indent: '1' },
+        { line: 'countSpan.textContent = `Total Touches: ${count}`', indent: '2' },
+        { line: `}; `, indent: '1' },
         { line: `}; `, indent: '0' },
         { line: `bgDiv?.addEventListener('touchstart', handleTouchStart);`, indent: '0' },
         { line: `// triggers when one or more fingers touch the element.`, indent: '0' },
-    ]
+    ],
+    touchmove: [
+        { line: `const bgDiv = document.getElementById('touchmove-demo');`, indent: '0' },
+        { line: `const countSpan = document.getElementById('touchmove-count');`, indent: '0' },
+        { line: `let count = 0;`, indent: '0' },
+        { line: `const handleTouchMove = (e) => {`, indent: '0' },
+        { line: `count += e.touches.length;`, indent: '1' },
+        { line: `if (countSpan) {`, indent: '1' },
+        { line: 'countSpan.textContent = `Total Touches: ${count}`', indent: '2' },
+        { line: `}; `, indent: '1' },
+        { line: `}; `, indent: '0' },
+        { line: `bgDiv?.addEventListener('touchmove', handleTouchMove);`, indent: '0' },
+        { line: `// triggers when moving one or more fingers across the element-area.`, indent: '0' },
+    ],
+    touchend: [
+        { line: `const bgDiv = document.getElementById('touchend-demo');`, indent: '0' },
+        { line: `const countSpan = document.getElementById('touchend-count');`, indent: '0' },
+        { line: `let count = 0;`, indent: '0' },
+        { line: `const handleTouchEnd = (e) => {`, indent: '0' },
+        { line: `count += e.changedTouches.length;`, indent: '1' },
+        { line: `if (countSpan) {`, indent: '1' },
+        { line: 'countSpan.textContent = `Total Touches: ${count}`', indent: '2' },
+        { line: `}; `, indent: '1' },
+        { line: `}; `, indent: '0' },
+        { line: `bgDiv?.addEventListener('touchend', handleTouchEnd);`, indent: '0' },
+        { line: `// triggers when a finger is lifted off the element.`, indent: '0' },
+    ],
+    touchcancel: [
+        { line: `const bgDiv = document.getElementById('touchcancel-demo');`, indent: '0' },
+        { line: `const countSpan = document.getElementById('touchcancel-count');`, indent: '0' },
+        { line: `let count = 0;`, indent: '0' },
+        { line: `const handleTouchCancel = (e) => {`, indent: '0' },
+        { line: `count += e.changedTouches.length;`, indent: '1' },
+        { line: `if (countSpan) {`, indent: '1' },
+        { line: 'countSpan.textContent = `Total Touches: ${count}`', indent: '2' },
+        { line: `}; `, indent: '1' },
+        { line: `}; `, indent: '0' },
+        { line: `bgDiv?.addEventListener('touchcancel', handleTouchCancel);`, indent: '0' },
+        { line: `// triggers when the touch is aborted`, indent: '0' },
+        { line: `// or canceled by the system,`, indent: '0' },
+        { line: `// not by the user lifting the finger intentionally.`, indent: '0' },
+    ],
 }
 export default function UserInteractionEvents() {
 
@@ -313,6 +358,7 @@ export default function UserInteractionEvents() {
             kdInput?.removeEventListener('keyup', handleKeyUp);
         };
     }, []);
+
     useEffect(() => {
         const bgDiv = document.getElementById('touchstart-demo');
         const countSpan = document.getElementById('touchstart-count');
@@ -329,6 +375,64 @@ export default function UserInteractionEvents() {
 
         return () => {
             bgDiv?.removeEventListener('touchstart', handleTouchStart);
+        };
+    }, []);
+
+    useEffect(() => {
+        const bgDiv = document.getElementById('touchmove-demo');
+        const countSpan = document.getElementById('touchmove-count');
+        let count = 0;
+
+        const handleTouchMove = (e) => {
+            e.preventDefault();
+            count += e.touches.length;
+            if (countSpan) {
+                countSpan.textContent = `Total Touches: ${count}`;
+            }
+        };
+
+        bgDiv?.addEventListener('touchmove', handleTouchMove);
+
+        return () => {
+            bgDiv?.removeEventListener('touchmove', handleTouchMove);
+        };
+    }, []);
+
+    useEffect(() => {
+        const bgDiv = document.getElementById('touchend-demo');
+        const countSpan = document.getElementById('touchend-count');
+        let count = 0;
+
+        const handleTouchEnd = (e) => {
+            count += e.changedTouches.length;
+            if (countSpan) {
+                countSpan.textContent = `Total Touches: ${count}`;
+            }
+        };
+
+        bgDiv?.addEventListener('touchend', handleTouchEnd);
+
+        return () => {
+            bgDiv?.removeEventListener('touchend', handleTouchEnd);
+        };
+    }, []);
+
+    useEffect(() => {
+        const bgDiv = document.getElementById('touchcancel-demo');
+        const countSpan = document.getElementById('touchcancel-count');
+        let count = 0;
+
+        const handleTouchCancel = (e) => {
+            count += e.changedTouches.length;
+            if (countSpan) {
+                countSpan.textContent = `Total Touches: ${count}`;
+            }
+        };
+
+        bgDiv?.addEventListener('touchcancel', handleTouchCancel);
+
+        return () => {
+            bgDiv?.removeEventListener('touchcancel', handleTouchCancel);
         };
     }, []);
 
@@ -849,6 +953,120 @@ export default function UserInteractionEvents() {
                         }}
                     >
                         <span id="touchstart-count" style={{ color: "var(--text-primary)" }}>Total Touches: 0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div className="event-wrapper" id="id_touchmove">
+                <pre className="event-name">
+                    "touchmove"
+                </pre>
+                <div className="event-example">
+                    <code className="event-code">
+                        {
+                            code?.touchmove?.map((i, _) => {
+                                return (
+                                    <div
+                                        key={_}
+                                    >
+                                        {_ ? <br /> : ''}
+                                        <CodeLine key={_} line={i.line} indent={i.indent | 0} />
+
+                                    </div>
+                                )
+                            })
+                        }
+                    </code>
+                    <div
+                        className="event-demo"
+                        id="touchmove-demo"
+                        style={{
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            userSelect: 'none',
+                            minHeight: '100px'
+                        }}
+                    >
+                        <span id="touchmove-count" style={{ color: "var(--text-primary)" }}>Total Touches: 0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div className="event-wrapper" id="id_touchend">
+                <pre className="event-name">
+                    "touchend"
+                </pre>
+                <div className="event-example">
+                    <code className="event-code">
+                        {
+                            code?.touchend?.map((i, _) => {
+                                return (
+                                    <div
+                                        key={_}
+                                    >
+                                        {_ ? <br /> : ''}
+                                        <CodeLine key={_} line={i.line} indent={i.indent | 0} />
+
+                                    </div>
+                                )
+                            })
+                        }
+                    </code>
+                    <div
+                        className="event-demo"
+                        id="touchend-demo"
+                        style={{
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            userSelect: 'none',
+                            minHeight: '100px'
+                        }}
+                    >
+                        <span id="touchend-count" style={{ color: "var(--text-primary)" }}>Total Touches: 0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div className="event-wrapper" id="id_touchcancel">
+                <pre className="event-name">
+                    "touchcancel"
+                </pre>
+                <div className="event-example">
+                    <code className="event-code">
+                        {
+                            code?.touchcancel?.map((i, _) => {
+                                return (
+                                    <div
+                                        key={_}
+                                    >
+                                        {_ ? <br /> : ''}
+                                        <CodeLine key={_} line={i.line} indent={i.indent | 0} />
+
+                                    </div>
+                                )
+                            })
+                        }
+                    </code>
+                    <div
+                        className="event-demo"
+                        id="touchcancel-demo"
+                        style={{
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            userSelect: 'none',
+                            minHeight: '100px'
+                        }}
+                    >
+                        <span id="touchcancel-count" style={{ color: "var(--text-primary)" }}>Total Touches: 0</span>
                     </div>
                 </div>
             </div>
