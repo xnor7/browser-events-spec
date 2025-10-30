@@ -1,0 +1,66 @@
+@import url(./styles/index.css);
+
+:root {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  --header-height: 52px;
+  --sidebar-width: 250px;
+  --max-height: calc(100dvh - 2rem);
+  --max-width: calc(100dvw - 2rem - 220px);
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: FC;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-synthesis: none;
+  scroll-behavior: smooth;
+}
+
+#root {
+  width: calc(100dvw);
+  max-height: calc(100dvh - var(--header-height));
+}
+
+
+
+button {
+  /* transition: all 250ms ease-in-out; */
+  user-select: none;
+
+  &:active {
+    scale: 0.95 !important;
+  }
+
+  &:hover {
+    scale: 1.125;
+  }
+}
+
+
+/* Hide both by default */
+.hljs-dark code {
+  all: unset;
+}
+
+.hljs-light code {
+  all: unset;
+}
+
+/* Apply theme color overrides manually */
+@media (prefers-color-scheme: dark) {
+  pre.hljs-dark {
+    background: #0d1117;
+    color: #73b9ff;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  pre.hljs-light {
+    background: #64b2ff;
+    color: #24292e;
+  }
+}
