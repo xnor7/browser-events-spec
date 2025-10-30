@@ -174,7 +174,7 @@ code.hljs {
 
 #app-wrapper {
     display: flex;
-    overflow: scroll
+    overflow-y: scroll
 }
 
 #header {
@@ -277,7 +277,7 @@ code.hljs {
     margin-left: calc(var(--sidebar-width) + 2rem);
     margin-top: calc(var(--header-height));
     background: var(--bg-primary);
-    padding: 1rem;
+    padding: 0;
     position: relative;
     min-height: 200dvh !important
 }
@@ -303,7 +303,16 @@ code.hljs {
     flex-direction: column;
     gap: 1rem;
     max-width: 100%;
+    padding: 0 1rem;
     display: flex
+}
+
+.event-section:first-child {
+    padding-top: 0 !important
+}
+
+.event-section:last-child {
+    padding-bottom: 0
 }
 
 .event-wrapper {
@@ -394,6 +403,10 @@ code.hljs {
         --lightningcss-light: ;
         --lightningcss-dark: initial
     }
+}
+
+#touchcancel-demo {
+    touch-action: none
 }
 
 @font-face {
