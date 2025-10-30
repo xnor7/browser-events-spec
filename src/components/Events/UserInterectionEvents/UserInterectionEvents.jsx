@@ -123,6 +123,7 @@ const code = {
     ]
 }
 export default function UserInteractionEvents() {
+
     useEffect(() => {
         const btn = document.querySelector('#click-btn');
         const counter = document.querySelector('#click-count');
@@ -271,7 +272,8 @@ export default function UserInteractionEvents() {
     useEffect(() => {
         const bgDiv = document.getElementById('wheel-demo');
 
-        const handleWheel = () => {
+        const handleWheel = (e) => {
+            e.preventDefault();
             bgDiv.style.background = "#" + Math.random().toString(16).slice(-6);
         };
 
